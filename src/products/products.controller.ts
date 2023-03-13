@@ -3,12 +3,12 @@ import { ProductsService } from './products.service';
 
 @Controller("products")
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @Post()
   // addProduct(@Body() body: { title: string, description: string, price: number }) -- this is the same as the next line
-  addProduct(@Body('title') title: string, @Body('description') description: string, @Body('price') price: number ): any {
-    const generatedId =  this.productsService.insertProduct(title, description, price);
+  async addProduct(@Body('title') title: string, @Body('description') description: string, @Body('price') price: number): Promise<{ id: string}> {
+    const generatedId = await this.productsService.insertProduct(title, description, price);
     return { id: generatedId };
   }
 
